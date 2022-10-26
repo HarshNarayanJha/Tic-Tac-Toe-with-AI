@@ -23,7 +23,7 @@ class Player(metaclass=abc.ABCMeta):
         """Return the current player's move in the given game state."""
 
 class ComputerPlayer(Player, metaclass=abc.ABCMeta):
-    def __init__(self, mark: Mark, delay_seconds: float = 1) -> None:
+    def __init__(self, mark: Mark, delay_seconds: float = 0.25) -> None:
         super().__init__(mark)
         self.delay_seconds = delay_seconds
     
@@ -41,27 +41,3 @@ class RandomComputerPlayer(ComputerPlayer):
             return random.choice(game_state.possible_moves)
         except IndexError:
             return None
-
-class ConsolePlayer(Player):
-    def get_move(self, game_state: GameState) -> Move | None:
-        while not game_state.game_over:
-            try:
-                index = grid_to_index(input(f"{self.mark}'s move: ").strip())
-            except ValueError:
-                print("Please provide coordinates in the for of A1 or 1A")
-            else:
-                try:
-                    return game_state.make_move_to(index)
-                except InvalidMove:
-                    print("That cell is already occupied.")
-        return None
-
-def grid_to_index(grid: str) -> int:
-    if re.match(r"[abcABC][123]", grid):
-        col, row = grid
-    elif re.match(r"[123][ABCabc]", grid):
-        row, col = grid
-    else:
-        raise ValueError('Invalid grid coordinates')
-    # The formula is: 3(r-1)+c
-    return 3 * (int(row) - 1) + (ord(col.upper()) - ord("A"))
