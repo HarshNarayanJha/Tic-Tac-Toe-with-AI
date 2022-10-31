@@ -1,5 +1,7 @@
 # Tic-Tac-Toe-wth-AI
  A Tic-Tac-Toe game in Python With AI
+ 
+Requires Python 3.10 or above to run
 
 # Playing
 Currently we have no proper frontends implemented. I will do in near future.
